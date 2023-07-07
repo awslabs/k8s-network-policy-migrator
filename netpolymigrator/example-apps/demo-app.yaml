@@ -1,0 +1,77 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: npmigrator-test
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-svc
+  namespace: npmigrator-test
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: demo-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: npmigrator-test
+spec:
+  selector:
+    matchLabels:
+      app: demo-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+      - name: demo
+        image: public.ecr.aws/docker/library/nginx:stable
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-one
+  namespace: npmigrator-test
+spec:
+  selector:
+    matchLabels:
+      app: client-one
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: client-one
+    spec:
+      containers:
+      - name: client-one
+        image: public.ecr.aws/docker/library/nginx:stable
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-two
+  namespace: npmigrator-test
+spec:
+  selector:
+    matchLabels:
+      app: client-two
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: client-two
+    spec:
+      containers:
+      - name: client-two
+        image: public.ecr.aws/docker/library/nginx:stable
+        imagePullPolicy: IfNotPresent

@@ -1,0 +1,30 @@
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "deny-all-ingress"
+  namespace: npmigrator-test
+spec:
+  endpointSelector:
+    matchLabels:
+      app: demo-app
+  ingress:
+  - {}
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "demo-app-ingress-rule"
+  namespace: npmigrator-test
+spec:
+  endpointSelector:
+    matchLabels:
+      app: demo-app
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        app: client-one
+    toPorts:
+    - ports:
+      - port: "80"
+        protocol: TCP

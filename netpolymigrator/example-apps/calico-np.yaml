@@ -1,0 +1,26 @@
+# ---
+# apiVersion: "projectcalico.org/v3"
+# kind: NetworkPolicy
+# metadata:
+#   name: deny-all-ingress
+#   namespace: npmigrator-test
+# spec:
+#   selector: app == 'demo-app'
+#   ingress:
+#   - {}
+---
+apiVersion: "projectcalico.org/v3"
+kind: NetworkPolicy
+metadata:
+  name: demo-app-ingress-rule
+  namespace: npmigrator-test
+spec:
+  selector: app == 'demo-app'
+  ingress:
+    - action: Allow
+      protocol: TCP
+      source:
+        selector: app == 'client-one'
+      destination:
+        ports:
+          - 80
