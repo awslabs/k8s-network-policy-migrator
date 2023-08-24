@@ -1,6 +1,8 @@
 # netpolymigrator
 
-`netpolymigrator` is a tool to migrate Calico and Cilium network policies to Kubernetes native network policies.
+`netpolymigrator` is a tool to migrate Calico and Cilium network policies to Kubernetes native network policies. 
+
+AWS EKS has Network Policy support through the [VPC CNI.](https://github.com/aws/amazon-vpc-cni-k8s) Review the [EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/[[network policy page name]].html) for more information. 
 
 
 ## Requirements
