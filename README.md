@@ -33,9 +33,12 @@ chmod +x netpol_migrator.sh
 ```
 
 
-**The available commands are:**
+## How to run different commands
 
-- `pre_migration_check`: Performs a set of prerequisites needed before you migrate your network policies. It detects which type of custom network policy you're using (Calico or Cilium), installs a demo application and its corresponding network policies, and then validates that everything is working as expected.
+### Pre-Migration Check
+
+- **`pre_migration_check`:** 
+* Performs a set of prerequisites needed before you migrate your network policies. It detects which type of custom network policy you're using (Calico or Cilium), installs a demo application and its corresponding network policies, and then validates that everything is working as expected. Also cleans up created objects
 
 ```
 ./netpol_migrator.sh pre_migration_check
@@ -68,8 +71,9 @@ error: the server doesn't have a resource type "networkpolicies"
 2023-08-26 20:25:43,763 [INFO]: Cleanup successful.
 ```
 
-
-- `collect`: Collects your existing Calico and Cilium network policies and stores them in a directory called `collected_network_policies`
+### Collect
+- **`collect`:** 
+* Collects your existing Calico and Cilium network policies and stores them in a directory called `collected_network_policies`
 
 ```
 ./netpol_migrator.sh collect
@@ -83,7 +87,10 @@ Collecting network policies...
 2023-08-26 20:28:22,573 [INFO]: Collected 2 calico NetworkPolicies and saved to 'collected_network_policies/calico' folder
 ```
 
-- `convert`: Converts your existing Calico and Cilium network policies to kubernetes native network policy and stores them in a directory called `converted_network_policies`. Make sure to provide the required `--input` argument, for example:
+### Convert
+
+- **`convert`:** 
+* Converts your existing Calico and Cilium network policies to kubernetes native network policy and stores them in a directory called `converted_network_policies`. Make sure to provide the required `--input` argument, for example:
 
 ```
 ./netpol_migrator.sh convert --input collected_network_policies
@@ -106,7 +113,10 @@ Converting network policies...
 
 **NOTE:** Before `apply` function you can run `pre_migration_check` just to make sure everything is working as expected
 
-- `apply`: Applies the converted network policies to your cluster. You will be prompted to select which subfolder to use (`cilium_converted` or `calico_converted`). Example usage:
+### Apply
+
+- **`apply`:**
+* Applies the converted network policies to your cluster. You will be prompted to select which subfolder to use (`cilium_converted` or `calico_converted`). Example usage:
 
   ```
   ./netpol_migrator.sh apply
@@ -129,7 +139,9 @@ Applying network policies from calico_converted...
 2023-08-26 20:42:11,195 [INFO]: Saved applied network policies to applied_network_policies.yaml
 ```
 
-- `rollback`: Rolls back the applied network policies. Make sure to provide the required `--applied-network-policies-file` argument, for example:
+### Rollback
+- **`rollback`:**
+* Rolls back the applied network policies. Make sure to provide the required `--applied-network-policies-file` argument, for example:
 
   ```
   ./netpol_migrator.sh rollback --applied-network-policies-file applied_network_policies.yaml
@@ -142,7 +154,19 @@ Applying network policies from calico_converted...
 2023-08-26 20:43:08,326 - INFO - Network policy 'default.allow-busybox-egress' rolled back successfully in namespace 'default'
 ```
 
-- `validate`: validates the statements shared below
+### Cleanup
+- **`cleanup`:** 
+* Cleans up resources related to the CNI provider you are using (either Calico or Cilium). You will be prompted to select which CNI provider to clean up. 
+Example usage:
+
+  ```
+  ./netpol_migrator.sh cleanup
+  ```
+
+### Validate
+
+- **`validate`:** 
+* Validates the statements shared below
   ```
   ./netpol_migrator.sh validate
   ```
@@ -157,12 +181,6 @@ Applying network policies from calico_converted...
 * checks if the policyTypes field of the spec is non-empty. If not, it logs a warning and returns False
 * For each egress rule in the network policy, it checks if the podSelector.matchLabels field meets the naming requirements (alphanumeric characters, hyphen, underscore, or dot). If not, it logs a warning and returns False
 
-
-- `cleanup`: Cleans up resources related to the CNI provider you are using (either Calico or Cilium). You will be prompted to select which CNI provider to clean up. Example usage:
-
-  ```
-  ./netpol_migrator.sh cleanup
-  ```
 
 ## Contributing
 * Guidelines on how to contribute to the project.
