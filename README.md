@@ -2,6 +2,8 @@
 
 `K8s Network Policy Migrator aka netpolymigrator` is a tool to migrate Calico and Cilium network policies to Kubernetes native network policies.
 
+AWS EKS has Network Policy support through the [VPC CNI.](https://github.com/aws/amazon-vpc-cni-k8s) Review the [EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/[[network policy page name]].html) for more information. 
+
 
 ## Requirements
 
@@ -12,6 +14,7 @@
 ## Usage
 
 1. Clone this repository
+
 ```
 git clone git@github.com:awslabs/k8s-network-policy-migrator.git
 ```
@@ -70,6 +73,7 @@ error: the server doesn't have a resource type "networkpolicies"
 2023-08-26 20:25:43,763 [WARNING]: Cilium network policy not found. Skipping deletion.
 2023-08-26 20:25:43,763 [INFO]: Cleanup successful.
 ```
+
 
 ### Collect
 - **`collect`:** 
@@ -171,19 +175,24 @@ Example usage:
   ./netpol_migrator.sh validate
   ```
 
-**Validation Checks**
-* checks if the network policy is a non-empty dictionary,If not, it logs a warning and returns False
-* checks if the network policy contains all the required fields: "apiVersion", "kind", "metadata", and "spec". If any of these fields are missing, it logs a warning and returns False
-* checks if the apiVersion of the network policy is either "networking.k8s.io/v1" or "networking.k8s.io/v1beta1". If not, it logs a warning and returns False
-* checks if the kind of the network policy is "NetworkPolicy". If not, it logs a warning and returns False
-* checks if the metadata of the network policy contains the 'name' field. If not, it logs a warning and returns False
-* checks if the spec field of the network policy is non-empty. If not, it logs a warning and returns False
-* checks if the policyTypes field of the spec is non-empty. If not, it logs a warning and returns False
-* For each egress rule in the network policy, it checks if the podSelector.matchLabels field meets the naming requirements (alphanumeric characters, hyphen, underscore, or dot). If not, it logs a warning and returns False
+* The network policy is a non-empty dictionary. 
+* The network policy contains all the required fields: "apiVersion", "kind", "metadata", and "spec". 
+* The apiVersion of the network policy is either "networking.k8s.io/v1" or "networking.k8s.io/v1beta1". 
+* The kind of the network policy is "NetworkPolicy". 
+* The metadata of the network policy contains the 'name' field. 
+* The spec field of the network policy is non-empty. 
+* The policyTypes field of the spec is non-empty. 
+* For each egress rule in the network policy, the podSelector.matchLabels field meets the naming requirements (alphanumeric characters, hyphen, underscore, or dot). 
 
-
-## Contributing
-* Guidelines on how to contribute to the project.
 
 ## License
 * This tool is released under the [Apache 2.0](LICENSE).
+
+## Security disclosures
+
+If you think you’ve found a potential security issue, please do not post it in the Issues. Instead, please follow the
+instructions [here](https://aws.amazon.com/security/vulnerability-reporting/) or [email AWS security directly](mailto:aws-security@amazon.com).
+
+## Contributing
+
+[See CONTRIBUTING.md](./CONTRIBUTING.md)
