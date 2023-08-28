@@ -1,13 +1,13 @@
 # netpolymigrator
 
-`netpolymigrator` is a tool to migrate Calico and Cilium network policies to Kubernetes native network policies.
+`K8s Network Policy Migrator aka netpolymigrator` is a tool to migrate Calico and Cilium network policies to Kubernetes native network policies.
 
 
 ## Requirements
 
 - Python 3
 - kubectl
-- Helm 3 (optional)
+- Kubernetes Cluster running Calico or Cilium (V1.25 and above )
 
 ## Usage
 
@@ -171,7 +171,7 @@ Example usage:
   ./netpol_migrator.sh validate
   ```
 
-**NOTE:**
+**Validation Checks**
 * checks if the network policy is a non-empty dictionary,If not, it logs a warning and returns False
 * checks if the network policy contains all the required fields: "apiVersion", "kind", "metadata", and "spec". If any of these fields are missing, it logs a warning and returns False
 * checks if the apiVersion of the network policy is either "networking.k8s.io/v1" or "networking.k8s.io/v1beta1". If not, it logs a warning and returns False
