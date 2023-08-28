@@ -10,16 +10,17 @@ if [ -z "$1" ]; then
 fi
 
 case $1 in
+
+  pre_migration_check)
+    echo "Pre-migration check..."
+    # Deploy the Demo App & Network Policy
+    python3 "${SCRIPT_DIR}/../netpolymigrator/pre_migration_check.py" 
+    ;;
+
   collect)
     echo "Collecting network policies..."
     # Execute collect.py
     python3 "${SCRIPT_DIR}/../netpolymigrator/collect.py" collect
-    ;;
-
-  setup_environment)
-    echo "Setting up the environment..."
-    # Deploy the Demo App & Network Policy
-    python3 "${SCRIPT_DIR}/../netpolymigrator/setup_environment.py" 
     ;;
 
   convert)

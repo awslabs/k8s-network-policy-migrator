@@ -342,15 +342,29 @@ def check_connectivity(pod_labels, namespace, endpoint):
 
     return conn_check
 
-def validate_np():
-    # Test Scenario 1
-    conn_status_1 = check_connectivity("app=client-one", namespace, endpoint_demoapp)
+def validate_np(namespace, endpoint_demoapp):
+    # Initialize a flag to keep track of the overall test status
+    all_tests_passed = True
     
-    # Test Scenario2
-    conn_status_2 = check_connectivity("app=client-two", namespace, endpoint_demoapp)
+    # Define the test scenarios
+    test_scenarios = [
+        {"label": "app=client-one", "expected": True},
+        {"label": "app=client-two", "expected": False}
+    ]
     
-    if conn_status_1 and not(conn_status_2):
-        logger.info("Tested NetworkPolices successfully")
-    else:
-        logger.error("NetworkPolicy test failed")
-        raise Exception("Network Policy Validation failed!!")
+    # Loop through each test scenario
+    for i, test in enumerate(test_scenarios):
+        label = test["label"]
+        expected = test["expected"]
+        
+        # Perform the connectivity test
+        conn_status = check_connectivity(label, namespace, endpoint_demoapp)
+        
+        # Validate the result
+        if conn_status == expected:
+            logger.info(f"Test scenario {i+1} passed")
+        else:
+            logger.error(f"Test scenario {i+1} failed: Expected {expected}, got {conn_status}")
+            all_tests_passed = False
+    
+    return all_tests_passed
