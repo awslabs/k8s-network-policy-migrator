@@ -171,7 +171,7 @@ Validates the statements shared below.
 
 
 ## Contributing
-* Guidelines on how to contribute to the project.
+Please refer to the contribution guidelines [here](CONTRIBUTING.md).
 
 ## License
-* This tool is released under the [Apache 2.0](LICENSE).
+This tool is released under the [Apache 2.0](LICENSE).
