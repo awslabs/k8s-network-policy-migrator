@@ -1,6 +1,6 @@
-# netpolymigrator
+# K8s Network Policy Migrator
 
-`K8s Network Policy Migrator aka netpolymigrator` is a tool to migrate Calico and Cilium network policies to Kubernetes native network policies.
+`K8s Network Policy Migrator` is a tool to migrate Calico and Cilium network policies to Kubernetes native network policies.
 
 
 ## Requirements
@@ -33,12 +33,10 @@ chmod +x netpol_migrator.sh
 ```
 
 
-## How to run different commands
+## How to use
 
 ### Pre-Migration Check
-
-- **`pre_migration_check`:** 
-* Performs a set of prerequisites needed before you migrate your network policies. It detects which type of custom network policy you're using (Calico or Cilium), installs a demo application and its corresponding network policies, and then validates that everything is working as expected. Also cleans up created objects
+Performs a set of prerequisites needed before you migrate your network policies. It detects which type of custom network policy you're using (Calico or Cilium), installs a demo application and its corresponding network policies, and then validates that everything is working as expected. Also cleans up created objects.
 
 ```
 ./netpol_migrator.sh pre_migration_check
@@ -72,8 +70,7 @@ error: the server doesn't have a resource type "networkpolicies"
 ```
 
 ### Collect
-- **`collect`:** 
-* Collects your existing Calico and Cilium network policies and stores them in a directory called `collected_network_policies`
+Collects your existing Calico and Cilium network policies and stores them in a directory called `collected_network_policies`.
 
 ```
 ./netpol_migrator.sh collect
@@ -88,9 +85,7 @@ Collecting network policies...
 ```
 
 ### Convert
-
-- **`convert`:** 
-* Converts your existing Calico and Cilium network policies to kubernetes native network policy and stores them in a directory called `converted_network_policies`. Make sure to provide the required `--input` argument, for example:
+Converts your existing Calico and Cilium network policies to kubernetes native network policy and stores them in a directory called `converted_network_policies`. Make sure to provide the required `--input` argument, for example:
 
 ```
 ./netpol_migrator.sh convert --input collected_network_policies
@@ -111,12 +106,10 @@ Converting network policies...
 ```
 
 
-**NOTE:** Before `apply` function you can run `pre_migration_check` just to make sure everything is working as expected
+**NOTE:** Before `apply` function you can run `pre_migration_check` just to make sure everything is working as expected.
 
 ### Apply
-
-- **`apply`:**
-* Applies the converted network policies to your cluster. You will be prompted to select which subfolder to use (`cilium_converted` or `calico_converted`). Example usage:
+Applies the converted network policies to your cluster. You will be prompted to select which subfolder to use (`cilium_converted` or `calico_converted`). Example usage:
 
   ```
   ./netpol_migrator.sh apply
@@ -140,8 +133,7 @@ Applying network policies from calico_converted...
 ```
 
 ### Rollback
-- **`rollback`:**
-* Rolls back the applied network policies. Make sure to provide the required `--applied-network-policies-file` argument, for example:
+Rolls back the applied network policies. Make sure to provide the required `--applied-network-policies-file` argument, for example:
 
   ```
   ./netpol_migrator.sh rollback --applied-network-policies-file applied_network_policies.yaml
@@ -154,19 +146,15 @@ Applying network policies from calico_converted...
 2023-08-26 20:43:08,326 - INFO - Network policy 'default.allow-busybox-egress' rolled back successfully in namespace 'default'
 ```
 
-### Cleanup
-- **`cleanup`:** 
-* Cleans up resources related to the CNI provider you are using (either Calico or Cilium). You will be prompted to select which CNI provider to clean up. 
-Example usage:
+### Cleanup 
+Cleans up resources related to the CNI provider you are using (either Calico or Cilium). You will be prompted to select which CNI provider to clean up. Example usage:
 
   ```
   ./netpol_migrator.sh cleanup
   ```
 
 ### Validate
-
-- **`validate`:** 
-* Validates the statements shared below
+Validates the statements shared below.
   ```
   ./netpol_migrator.sh validate
   ```
